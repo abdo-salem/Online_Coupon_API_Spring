@@ -1,20 +1,27 @@
 package com.intern.CoponAPI.service.impl;
 
 import com.intern.CoponAPI.exceptions.ValidationException;
+import com.intern.CoponAPI.model.dto.CouponDto;
+import com.intern.CoponAPI.model.mapper.CouponMapper;
 import com.intern.CoponAPI.repository.CouponRepository;
 import com.intern.CoponAPI.entity.Coupon;
 import com.intern.CoponAPI.service.CouponService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class CouponServiceImpl implements CouponService{
 
     private final CouponRepository couponRepository;
+
+    @Autowired
+    private CouponMapper couponMapper;
 
     public Coupon createCoupon(Coupon coupon){
         if(couponRepository.existsByCode(coupon.getCode())){
@@ -27,5 +34,10 @@ public class CouponServiceImpl implements CouponService{
     }
     public List<Coupon> viewAllCoupons(){
         return couponRepository.findAll();
+    }
+
+    public CouponDto getCouponById(Long couponId){
+        Optional<Coupon> coupon = couponRepository.findById(couponId);
+        return couponMapper.CouponToCouponDto(coupon.get());
     }
 }

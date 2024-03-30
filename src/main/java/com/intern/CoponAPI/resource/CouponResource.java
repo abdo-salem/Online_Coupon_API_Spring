@@ -1,6 +1,7 @@
 package com.intern.CoponAPI.resource;
 
 import com.intern.CoponAPI.entity.Coupon;
+import com.intern.CoponAPI.model.dto.CouponDto;
 import com.intern.CoponAPI.service.CouponService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -24,5 +25,11 @@ public class CouponResource {
     @GetMapping("allCoupons")
     public ResponseEntity<List<Coupon>> viewAllCoupons(){
         return ResponseEntity.ok(couponService.viewAllCoupons());
+    }
+
+    @GetMapping("{couponId}")
+    public ResponseEntity<CouponDto> getCouponById(@PathVariable Long couponId){
+        CouponDto coupon= couponService.getCouponById(couponId);
+        return ResponseEntity.ok(coupon);
     }
 }
